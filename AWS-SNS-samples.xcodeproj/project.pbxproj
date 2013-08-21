@@ -24,6 +24,7 @@
 		5BD2C4D817C5496B00028E4B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BD2C4B017C5496A00028E4B /* Foundation.framework */; };
 		5BD2C4E017C5496B00028E4B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BD2C4DE17C5496B00028E4B /* InfoPlist.strings */; };
 		5BD2C4E317C5496B00028E4B /* AWS_SNS_samplesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD2C4E217C5496B00028E4B /* AWS_SNS_samplesTests.m */; };
+		7B293EE5E98E4352AFC163D8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD0ACEE1D06742D5B6DC6DA5 /* libPods.a */; settings = {}; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,8 @@
 		5BD2C4DF17C5496B00028E4B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5BD2C4E117C5496B00028E4B /* AWS_SNS_samplesTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWS_SNS_samplesTests.h; sourceTree = "<group>"; };
 		5BD2C4E217C5496B00028E4B /* AWS_SNS_samplesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AWS_SNS_samplesTests.m; sourceTree = "<group>"; };
+		DD0ACEE1D06742D5B6DC6DA5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libPods.a; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4DC477D46ED47DA935F1FB3 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +73,7 @@
 				5BD2C4AF17C5496A00028E4B /* UIKit.framework in Frameworks */,
 				5BD2C4B117C5496A00028E4B /* Foundation.framework in Frameworks */,
 				5BD2C4B317C5496A00028E4B /* CoreGraphics.framework in Frameworks */,
+				7B293EE5E98E4352AFC163D8 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +97,7 @@
 				5BD2C4DB17C5496B00028E4B /* AWS-SNS-samplesTests */,
 				5BD2C4AD17C5496A00028E4B /* Frameworks */,
 				5BD2C4AC17C5496A00028E4B /* Products */,
+				E4DC477D46ED47DA935F1FB3 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,6 +117,7 @@
 				5BD2C4B017C5496A00028E4B /* Foundation.framework */,
 				5BD2C4B217C5496A00028E4B /* CoreGraphics.framework */,
 				5BD2C4D517C5496B00028E4B /* SenTestingKit.framework */,
+				DD0ACEE1D06742D5B6DC6DA5 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -170,9 +176,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5BD2C4E617C5496B00028E4B /* Build configuration list for PBXNativeTarget "AWS-SNS-samples" */;
 			buildPhases = (
+				571224623C61403591CC3AA2 /* Check Pods Manifest.lock */,
 				5BD2C4A717C5496A00028E4B /* Sources */,
 				5BD2C4A817C5496A00028E4B /* Frameworks */,
 				5BD2C4A917C5496A00028E4B /* Resources */,
+				84A6E5BB941147FDAFDE8531 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -222,6 +230,8 @@
 			mainGroup = 5BD2C4A217C5496A00028E4B;
 			productRefGroup = 5BD2C4AC17C5496A00028E4B /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+			);
 			projectRoot = "";
 			targets = (
 				5BD2C4AA17C5496A00028E4B /* AWS-SNS-samples */,
@@ -255,6 +265,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		571224623C61403591CC3AA2 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 1;
+		};
 		5BD2C4D217C5496B00028E4B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -267,6 +292,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		84A6E5BB941147FDAFDE8531 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 1;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -395,6 +435,7 @@
 		};
 		5BD2C4E717C5496B00028E4B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E4DC477D46ED47DA935F1FB3 /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AWS-SNS-samples/AWS-SNS-samples-Prefix.pch";
@@ -406,6 +447,7 @@
 		};
 		5BD2C4E817C5496B00028E4B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E4DC477D46ED47DA935F1FB3 /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AWS-SNS-samples/AWS-SNS-samples-Prefix.pch";

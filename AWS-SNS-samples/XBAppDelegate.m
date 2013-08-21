@@ -7,40 +7,62 @@
 //
 
 #import "XBAppDelegate.h"
+#import "AFJSONRequestOperation.h"
+#import "AFHTTPClient.h"
+
+#define kXBRemotePushTokenBaseUrl (@"http://aws-sns-server.tom404.cloudbees.net")
+#define kXBRemovePushTokenRegistrationEndpoint (@"/registrations/apns")
 
 @implementation XBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+
+    UIApplication *app = [UIApplication sharedApplication];
+    UIRemoteNotificationType notificationTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound |
+                                                 UIRemoteNotificationTypeAlert;
+    [app registerForRemoteNotificationTypes:notificationTypes];
+    
     return YES;
 }
-							
-- (void)applicationWillResignActive:(UIApplication *)application
+
+#pragma mark - APNS
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)rawDeviceToken
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+	const unsigned *tokenBytes = [rawDeviceToken bytes];
+	NSString *deviceToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
+							 ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
+							 ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
+							 ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
+    
+    NSLog(@"APNS : Device token : %@", deviceToken);
+
+	[self updateDeviceTokenOnServer:deviceToken];
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *) error
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+	NSLog(@"APNS: Failed to register with error: %@", error);
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
+- (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+	NSLog(@"APNS: Received push: %@", userInfo);
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
+- (void)updateDeviceTokenOnServer:(NSString *)deviceToken
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
+	NSURL *url = [NSURL URLWithString:kXBRemotePushTokenBaseUrl];
+	AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
 
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+	[httpClient putPath:kXBRemovePushTokenRegistrationEndpoint parameters:nil
+				success:^(AFHTTPRequestOperation *operation, id responseObject) {
+					NSLog(@"Token updated on server");
+				}
+				failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+					NSLog(@"Fail to update token on server : %@", error);
+				}];
 }
 
 @end
